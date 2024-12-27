@@ -1,0 +1,106 @@
+#app {
+  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
+  /* font-family: m; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f6f6f6;
+}
+::-webkit-scrollbar {
+  width: 5px; /* Độ rộng của thanh cuộn */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền của track thanh cuộn */
+  border-radius: 10px; /* Bo góc cho track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: gray; /* Màu của thanh cuộn */
+  border-radius: 10px; /* Bo góc cho thanh cuộn */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Màu của thanh cuộn khi hover */
+}
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* font-size: calc(10px + 2vmin); */
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* glossy */
+/* @keyframes glossyAnimation {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.glossy-effect {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(110deg, #fde68a, #fca5a5, #fdba74);
+  background-size: 200% 200%;
+  animation: glossyAnimation 3s infinite linear;
+}
+
+.glossy-effect::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  animation: glossEffect 2.5s infinite linear;
+}
+
+@keyframes glossEffect {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+} */
+
