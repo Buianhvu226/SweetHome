@@ -12,13 +12,15 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { motion } from "framer-motion";
-
-// Import hình ảnh
-import ImgCup from "../../../assets/image/3d-cup.png";
-import ImgUserAdmin from "../../../assets/image/IconuserAdmin.png";
-import ImgPostAdmin from "../../../assets/image/IconBaiDangAdmin.png";
-import ImgBill from "../../../assets/image/bill-line.png";
 import ImgThreeDots from "../../../assets/image/more-2-line.png";
+import {
+  faComment,
+  faE,
+  faEye,
+  faHeart,
+  faNewspaper,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -32,8 +34,8 @@ const DashboardAdmin = () => {
   const [numComment, setNumComment] = useState(0);
   const [numView, setNumView] = useState(0);
   const [newPostsData, setNewPostsData] = useState([]);
-  const [totalNewPosts, setTotalNewPosts] = useState(0);
   const [postsSummary, setPostsSummary] = useState(null);
+  const [newPostInDay, setNewPostInDay] = useState(0);
 
   // Fetch số liệu từ API
   useEffect(() => {
@@ -77,11 +79,30 @@ const DashboardAdmin = () => {
         if (response.ok) {
           const data = await response.json();
           setNewPostsData(data.new_posts);
-          const total = data.new_posts.reduce(
-            (acc, post) => acc + post.count,
-            0
-          );
-          setTotalNewPosts(total);
+        } else {
+          toast.error("Không thể tải số liệu bài đăng mới.");
+        }
+      } catch (error) {
+        toast.error("Lỗi kết nối khi tải số liệu bài đăng mới.");
+      }
+    };
+
+    const fetchNewPostInDay = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}/api/statistics?category=new_posts_statistics&period=day`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${sessionToken}`,
+            },
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setNewPostInDay(data.new_posts[0].count);
+          console.log("==========> bài mới", data.new_posts[0].count);
         } else {
           toast.error("Không thể tải số liệu bài đăng mới.");
         }
@@ -113,16 +134,15 @@ const DashboardAdmin = () => {
 
     fetchInteractions();
     fetchNewPostsStatistics(selectedPeriod);
+    fetchNewPostInDay();
     setIsAnimated(true);
   }, [sessionToken, selectedPeriod]);
 
   // Tính chiều cao tối đa của cột biểu đồ
   const getMaxHeight = () => {
     switch (selectedPeriod) {
-      case "day":
-        return 24; // 24 giờ
       case "week":
-        return 7; // 7 ngày
+        return 7;
       case "month":
         return new Date(
           new Date().getFullYear(),
@@ -144,19 +164,19 @@ const DashboardAdmin = () => {
       <div className="flex gap-6">
         {/* Card số người đăng ký */}
         <div className="w-1/3 bg-white p-6 rounded-lg shadow-md">
-          <strong className="text-lg font-bold">
-            Số người đăng ký trong tháng
+          <strong className="text-lg font-bold text-center">
+            Số bài đăng mới trong ngày
           </strong>
-          <p className="text-sm text-gray-500">Tháng 10</p>
-          <div className="flex mt-4">
-            <div className="flex-1">
-              <p className="text-2xl font-bold text-blue-600">+10 người dùng</p>
-              <p className="text-gray-500">Tăng 100% so với tháng trước</p>
-              <button className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-md">
-                Chi tiết
-              </button>
+          <div className="flex mt-4 justify-center items-center gap-5">
+            <div className="">
+              <p className="text-2xl font-bold text-blue-600">
+                +{newPostInDay} bài đăng
+              </p>
             </div>
-            <img src={ImgCup} alt="Cup" className="w-16 h-16" />
+            <FontAwesomeIcon
+              icon={faNewspaper}
+              className="w-16 h-16 text-blue-500"
+            />
           </div>
         </div>
 
@@ -169,37 +189,42 @@ const DashboardAdmin = () => {
                 Cập nhật gần nhất <i>{new Date().toLocaleDateString()}</i>
               </p>
             </div>
-            <img src={ImgThreeDots} alt="Menu" />
           </div>
           <div className="flex justify-between mt-8">
             {/* Số lượt thích */}
             <div className="flex items-center">
-              <div className="w-12 h-12 bg-green-500 rounded-md flex justify-center items-center">
-                <img src={ImgUserAdmin} alt="Likes" className="w-6 h-6" />
+              <div className="w-12 h-12 bg-red-500 rounded-md flex justify-center items-center">
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  className="w-6 h-6 text-white"
+                />
               </div>
-              <div className="ml-4">
+              <div className="ml-4 font-semibold">
                 <strong>Số lượt thích</strong>
-                <p>{numReact} +</p>
+                <p className="text-red-500">{numReact} +</p>
               </div>
             </div>
             {/* Số lượt bình luận */}
             <div className="flex items-center">
-              <div className="w-12 h-12 bg-orange-500 rounded-md flex justify-center items-center">
-                <img src={ImgPostAdmin} alt="Comments" className="w-6 h-6" />
+              <div className="w-12 h-12 bg-blue-500 rounded-md flex justify-center items-center">
+                <FontAwesomeIcon
+                  icon={faComment}
+                  className="w-6 h-6 text-white"
+                />
               </div>
-              <div className="ml-4">
+              <div className="ml-4 font-semibold">
                 <strong>Số lượt bình luận</strong>
-                <p>{numComment} +</p>
+                <p className="text-blue-500">{numComment} +</p>
               </div>
             </div>
             {/* Số lượt xem */}
             <div className="flex items-center">
-              <div className="w-12 h-12 bg-blue-500 rounded-md flex justify-center items-center">
-                <img src={ImgBill} alt="Views" className="w-6 h-6" />
+              <div className="w-12 h-12 bg-yellow-500 rounded-md flex justify-center items-center">
+                <FontAwesomeIcon icon={faEye} className="w-6 h-6 text-white" />
               </div>
-              <div className="ml-4">
+              <div className="ml-4 font-semibold">
                 <strong>Số lượt xem</strong>
-                <p>{numView} +</p>
+                <p className="text-yellow-500">{numView} +</p>
               </div>
             </div>
           </div>
@@ -210,7 +235,7 @@ const DashboardAdmin = () => {
       <div className="flex justify-between">
         <div className="bg-white w-[55%] p-6 mt-6 rounded-lg shadow-md overflow-auto relative">
           {/* Chú thích ở góc phải bên trên */}
-          <div className="absolute top-2 right-2 bg-gray-100 text-xs text-gray-700 p-2 rounded-md shadow">
+          <div className="absolute top-5 right-2 bg-gray-100 text-xs text-gray-700 p-2 rounded-md shadow">
             <span>Biểu đồ số lượng bài đăng theo thời gian</span>
           </div>
 
@@ -221,19 +246,16 @@ const DashboardAdmin = () => {
               onChange={(e) => setSelectedPeriod(e.target.value)}
               className="border p-2 rounded-md"
             >
-              <option value="day">Ngày</option>
               <option value="week">Tuần</option>
               <option value="month">Tháng</option>
               <option value="year">Năm</option>
             </select>
           </div>
-          <div className="flex justify-between items-end h-[14.5rem] mt-6">
+          <div className="flex justify-between items-end h-[16.5rem] mt-6">
             {Array.from({ length: maxUnits }).map((_, index) => {
               const unitData = newPostsData.find((post) => {
                 const date = new Date(post.period);
                 switch (selectedPeriod) {
-                  case "day":
-                    return date.getHours() === index;
                   case "week":
                     return date.getDay() === index;
                   case "month":
@@ -277,18 +299,18 @@ const DashboardAdmin = () => {
                       : selectedPeriod === "month"
                       ? index + 1
                       : [
-                          "Jan",
-                          "Feb",
-                          "Mar",
-                          "Apr",
-                          "May",
-                          "Jun",
-                          "Jul",
-                          "Aug",
-                          "Sep",
-                          "Oct",
-                          "Nov",
-                          "Dec",
+                          "Th1",
+                          "Th2",
+                          "Th3",
+                          "Th4",
+                          "Th5",
+                          "Th6",
+                          "Th7",
+                          "Th8",
+                          "Th9",
+                          "Th10",
+                          "Th11",
+                          "Th12",
                         ][index]}
                   </span>
                 </div>
