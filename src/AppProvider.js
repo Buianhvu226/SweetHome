@@ -14,6 +14,7 @@ export const useAppContext = () => {
 export default function AppProvider({
   children,
   initialSessionToken,
+  initialRefreshToken,
   initialRole,
   initialId,
   initialName,
@@ -33,10 +34,15 @@ export default function AppProvider({
     return initialSessionToken || localStorage.getItem("accessToken") || "";
   });
 
+  const [refreshToken, setRefreshToken] = useState(() => {
+    return initialRefreshToken || localStorage.getItem("refreshToken") || "";
+  });
+
   useEffect(() => {
     if (sessionToken && role) {
       localStorage.setItem("role", role);
       localStorage.setItem("accessToken", sessionToken);
+      localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("id", id);
       localStorage.setItem("name", name);
     } else {
@@ -45,13 +51,15 @@ export default function AppProvider({
       localStorage.removeItem("id");
       localStorage.removeItem("name");
     }
-  }, [sessionToken, role, id, name]);
+  }, [sessionToken, refreshToken, role, id, name]);
 
   return (
     <AppContext.Provider
       value={{
         sessionToken,
         setSessionToken,
+        refreshToken,
+        setRefreshToken,
         role,
         setRole,
         id,
@@ -68,6 +76,7 @@ export default function AppProvider({
 AppProvider.propTypes = {
   children: PropTypes.node,
   initialSessionToken: PropTypes.string,
+  initialRefreshToken: PropTypes.string,
   initialRole: PropTypes.string,
   initialId: PropTypes.string,
   initialName: PropTypes.string,

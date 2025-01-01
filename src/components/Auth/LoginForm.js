@@ -9,7 +9,8 @@ const LoginForm = () => {
   const [error, setError] = useState(null);
   let navigate = useNavigate();
 
-  const { setSessionToken, setRole, setId, setName } = useAppContext();
+  const { setSessionToken, setRefreshToken, setRole, setId, setName } =
+    useAppContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,6 +34,7 @@ const LoginForm = () => {
 
       if (response.ok) {
         setSessionToken(data.tokens.access);
+        setRefreshToken(data.tokens.refresh);
         setRole(data.role);
         const role = data.role;
         localStorage.setItem("refreshToken", data.tokens.refresh);
@@ -124,7 +126,6 @@ const LoginForm = () => {
             </div>
             <p
               className="text-red-500 pt-1 font-semibold text-center mt-5"
-              
               dangerouslySetInnerHTML={{ __html: error }}
             ></p>
           </form>

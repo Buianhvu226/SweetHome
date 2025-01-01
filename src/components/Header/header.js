@@ -19,8 +19,15 @@ function Header() {
   const location = useLocation();
   const [ava, setAva] = useState("");
 
-  const { sessionToken, setSessionToken, setRole, role, name } =
-    useAppContext();
+  const {
+    sessionToken,
+    setSessionToken,
+    refreshToken,
+    setRefreshToken,
+    setRole,
+    role,
+    name,
+  } = useAppContext();
   const { id } = useAppContext();
 
   const [activeLink, setActiveLink] = useState(location.pathname);
@@ -35,17 +42,21 @@ function Header() {
             Authorization: `Bearer ${sessionToken}`,
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({ refresh: refreshToken }),
         }
       );
 
       if (response.ok) {
         setSessionToken(null);
         setRole("");
+        setRefreshToken(null);
         localStorage.removeItem("refreshToken");
+        localStorage.removeItem("sessionToken");
         localStorage.clear();
         navigate("/");
       } else {
         console.error("Đăng xuất thất bại!");
+        console.error("====> localStorage:", localStorage);
       }
     } catch (error) {
       console.error("Có lỗi xảy ra khi đăng xuất:", error);
@@ -88,7 +99,7 @@ function Header() {
               <img className="w-[33px]" src={Logo} alt=""></img>
               <strong className="font-bold text-xl ml-2">SweetHome</strong>
             </Link>
-            <nav className="flex items-center w-[60%] px-6">
+            <nav className="flex items-center w-[60%] px-6 ml-[15rem]">
               <ul className="flex space-x-6 gap-20">
                 <li className="relative group">
                   <Link
@@ -214,7 +225,7 @@ function Header() {
                     Nhắn tin
                   </span>
                 </li>
-  
+
                 <li className="relative group">
                   <Link
                     to="/user/create-post"
