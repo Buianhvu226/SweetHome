@@ -433,7 +433,7 @@ const PredictHousePrice = () => {
                 className="block text-gray-700 font-medium mb-2"
                 htmlFor="furnishing_sell"
               >
-                Giao nhà:
+                Tình trạng nội thất:
               </label>
               <select
                 id="furnishing_sell"
