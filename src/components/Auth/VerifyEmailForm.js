@@ -18,9 +18,9 @@ const VerifyEmailForm = () => {
         />
         <div className="flex flex-col items-center text-center space-y-6 w-full">
           <p className="text-gray-700 text-lg leading-relaxed">
-            Vui lòng kiểm tra email{" "}
+            Kính gửi Quý khách, vui lòng kiểm tra hộp thư{" "}
             <span className="font-semibold text-blue-500">{email}</span> và nhấn
-            vào link trong email để kích hoạt tài khoản của bạn.
+            vào đường dẫn xác thực để hoàn tất quá trình kích hoạt tài khoản.
           </p>
           <Link
             to="/"

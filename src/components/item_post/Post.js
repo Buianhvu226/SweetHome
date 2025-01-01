@@ -154,9 +154,8 @@ function Post({ post, type }) {
         return !prevClicked;
       });
       try {
-        await axios.post(
+        const res = await axios.post(
           `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}/api/posts/${post.post_id}/like/`,
-          {},
           {
             headers: {
               Authorization: `Bearer ${sessionToken}`,
@@ -164,6 +163,9 @@ function Post({ post, type }) {
             },
           }
         );
+        if (res.status === 200) {
+          console.log("Like post successfully");
+        }
       } catch (error) {
         console.error("Error liking the post:", error);
       }
