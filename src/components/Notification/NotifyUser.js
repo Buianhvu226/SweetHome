@@ -21,8 +21,10 @@ const NotifyUser = () => {
 
   useEffect(() => {
     const websocket = new WebSocket(
-      `ws://127.0.0.1:8000/ws/notifications/?user_id=${id}`
+      `wss://165.232.170.169/ws/notifications/?user_id=${id}`
     );
+
+    // wss://165.232.170.169/ws/notifications/?user_id=a1a9935a-8a61-4952-aec4-79dfcde07038
 
     websocket.onopen = () => {
       console.log("WebSocket connection established");

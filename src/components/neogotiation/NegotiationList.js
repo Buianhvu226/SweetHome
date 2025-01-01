@@ -26,6 +26,7 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import ReportPopup from "../report/ReportPopup ";
+import Swal from "sweetalert2";
 
 const NegotiationList = ({ type }) => {
   const { postId } = useParams();
@@ -52,6 +53,8 @@ const NegotiationList = ({ type }) => {
   const menuRef = useRef(null);
   const [reportType, setReportType] = useState("");
   const [isReportPopupOpen, setIsReportPopupOpen] = useState(false);
+
+  const today = new Date().toISOString().split("T")[0];
 
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
@@ -170,9 +173,21 @@ const NegotiationList = ({ type }) => {
 
     setProposalPrice(formattedValue);
   };
+
   const handleProposalNegotiation = async (negotiationId) => {
     if (!proposalPrice || !proposalDate || !proposalMethod || !proposalNote) {
-      alert("Vui lòng nhập đầy đủ thông tin !");
+      Swal.fire({
+        icon: "warning",
+        title: "Thiếu thông tin",
+        text: "Vui lòng nhập đầy đủ thông tin!",
+        confirmButtonText: "Đóng",
+        confirmButtonColor: "#dc3545",
+        didOpen: () => {
+          const popup = Swal.getPopup();
+          popup.style.fontFamily = "'Montserrat', sans-serif";
+          popup.style.fontWeight = 600;
+        },
+      });
       return;
     }
 
@@ -194,13 +209,48 @@ const NegotiationList = ({ type }) => {
         }
       );
       if (response.status === 201) {
-        alert("Đề nghị lại thương lượng thành công !");
-        window.location.reload();
+        Swal.fire({
+          icon: "success",
+          title: "Thành công",
+          text: "Đề nghị lại thương lượng thành công!",
+          confirmButtonText: "Đóng",
+          confirmButtonColor: "#28a745",
+          didOpen: () => {
+            const popup = Swal.getPopup();
+            popup.style.fontFamily = "'Montserrat', sans-serif";
+            popup.style.fontWeight = 600;
+          },
+        }).then(() => {
+          window.location.reload();
+        });
       } else {
-        alert("Bạn đã đề nghị lại trước đó !");
+        Swal.fire({
+          icon: "error",
+          title: "Lỗi",
+          text: "Bạn đã đề nghị lại trước đó!",
+          confirmButtonText: "Đóng",
+          confirmButtonColor: "#dc3545",
+          didOpen: () => {
+            const popup = Swal.getPopup();
+            popup.style.fontFamily = "'Montserrat', sans-serif";
+            popup.style.fontWeight = 600;
+          },
+        });
       }
     } catch (error) {
       console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Lỗi",
+        text: "Đã xảy ra lỗi khi gửi đề nghị!",
+        confirmButtonText: "Đóng",
+        confirmButtonColor: "#dc3545",
+        didOpen: () => {
+          const popup = Swal.getPopup();
+          popup.style.fontFamily = "'Montserrat', sans-serif";
+          popup.style.fontWeight = 600;
+        },
+      });
     }
   };
 
@@ -792,6 +842,7 @@ const NegotiationList = ({ type }) => {
                 <input
                   type="date"
                   id="proposalDate"
+                  min={today}
                   value={proposalDate}
                   onChange={(e) => setProposalDate(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none"

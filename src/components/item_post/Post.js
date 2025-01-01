@@ -38,6 +38,7 @@ import { useAppContext } from "../../AppProvider";
 import axios from "axios";
 import ImageCard from "../image_card/ImageCard";
 import DetailDescription from "../detail_description/DetailDescription";
+import Swal from "sweetalert2";
 
 function Post({ post, type }) {
   const { id, sessionToken, role, posts, setPost } = useAppContext();
@@ -59,6 +60,8 @@ function Post({ post, type }) {
   const [showPopUpDelete, setShowPopUpDelete] = useState(false);
 
   const [isStatusPopupOpen, setIsStatusPopupOpen] = useState(false);
+
+  const today = new Date().toISOString().split("T")[0];
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -307,7 +310,18 @@ function Post({ post, type }) {
 
   const handleSubmit = async () => {
     if (!price || !negotiationDate || !paymentMethod || !negotiationNote) {
-      alert("Vui lòng điền đầy đủ các trường bắt buộc.");
+      Swal.fire({
+        icon: "warning",
+        title: "Thiếu thông tin",
+        text: "Vui lòng điền đầy đủ các trường bắt buộc.",
+        confirmButtonText: "Đóng",
+        confirmButtonColor: "#dc3545",
+        didOpen: () => {
+          const popup = Swal.getPopup();
+          popup.style.fontFamily = "'Montserrat', sans-serif";
+          popup.style.fontWeight = 600;
+        },
+      });
       return;
     }
 
@@ -330,18 +344,41 @@ function Post({ post, type }) {
         }
       );
       console.log("Negotiation response:", response.data);
+
       setIsPopupOpen(false);
       setPrice("");
       setNegotiationDate("");
       setPaymentMethod("");
       setNegotiationNote("");
-      alert("Đã gửi yêu cầu thương lượng thành công!");
-      navigate(`/user/detail-post/${post.post_id}`);
+
+      Swal.fire({
+        icon: "success",
+        title: "Thành công",
+        text: "Đã gửi yêu cầu thương lượng thành công!",
+        confirmButtonText: "Đóng",
+        confirmButtonColor: "#28a745",
+        didOpen: () => {
+          const popup = Swal.getPopup();
+          popup.style.fontFamily = "'Montserrat', sans-serif";
+          popup.style.fontWeight = 600;
+        },
+      }).then(() => {
+        window.location.reload();
+      });
     } catch (error) {
       console.error("Error submitting negotiation:", error);
-      alert(
-        "Mức giá thương lượng bạn đưa ra không phù hợp. Vui lòng hãy thử lại với mức giá khác."
-      );
+      Swal.fire({
+        icon: "error",
+        title: "Lỗi",
+        text: "Mức giá thương lượng bạn đưa ra không phù hợp. Vui lòng hãy thử lại với mức giá khác.",
+        confirmButtonText: "Đóng",
+        confirmButtonColor: "#dc3545",
+        didOpen: () => {
+          const popup = Swal.getPopup();
+          popup.style.fontFamily = "'Montserrat', sans-serif";
+          popup.style.fontWeight = 600;
+        },
+      });
     }
   };
 
@@ -528,6 +565,7 @@ function Post({ post, type }) {
                           <input
                             type="date"
                             id="negotiationDate"
+                            min={today}
                             value={negotiationDate}
                             onChange={(e) => setNegotiationDate(e.target.value)}
                             className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none"
@@ -727,6 +765,49 @@ function Post({ post, type }) {
                   Xóa
                 </button>
               </>
+            )}
+
+            {/* Admin */}
+
+            {role === "admin" && post.status === "Đang chờ duyệt" && (
+              <div className="flex justify-center items-center gap-10">
+                <button
+                  className="bg-gradient-to-r from-yellow-500 to-yellow-400 text-black font-bold px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 transform hover:scale-105 transition-transform duration-200 ease-in-out hover:from-yellow-600 hover:to-yellow-500"
+                  onClick={() => {
+                    setShowPopupD(true);
+                    setSelectedPostIdD(post.post_id);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faCheck} className="text-lg" />
+                  Duyệt bài
+                </button>
+
+                <button
+                  className="bg-gradient-to-r from-red-500 to-red-400 text-white font-bold px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 transform hover:scale-105 transition-transform duration-200 ease-in-out hover:from-red-600 hover:to-red-500"
+                  onClick={() => {
+                    setShowPopUpConfirm(true);
+                    setSelectedPostIdD(post.post_id);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faX} className="text-lg" />
+                  Từ chối
+                </button>
+              </div>
+            )}
+
+            {role === "admin" && post.status === "Đã duyệt" && (
+              <div className="flex justify-center items-center">
+                <button
+                  className="bg-gradient-to-r from-red-500 to-red-400 text-white font-bold px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 transform hover:scale-105 transition-transform duration-200 ease-in-out hover:from-red-600 hover:to-red-500"
+                  onClick={() => {
+                    setShowPopUpDelete(true);
+                    setSelectedPostIdD(post.post_id);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faX} className="text-lg" />
+                  Xóa bài đăng
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -1237,49 +1318,6 @@ function Post({ post, type }) {
                     </div>
                   </button>
                   <span className="text-xs">Lưu bài</span>
-                </div>
-              )}
-
-              {/* Admin */}
-
-              {role === "admin" && post.status === "Đang chờ duyệt" && (
-                <div className="flex justify-center items-center gap-10">
-                  <button
-                    className="bg-gradient-to-r from-yellow-500 to-yellow-400 text-black font-bold px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 transform hover:scale-105 transition-transform duration-200 ease-in-out hover:from-yellow-600 hover:to-yellow-500"
-                    onClick={() => {
-                      setShowPopupD(true);
-                      setSelectedPostIdD(post.post_id);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faCheck} className="text-lg" />
-                    Duyệt bài
-                  </button>
-
-                  <button
-                    className="bg-gradient-to-r from-red-500 to-red-400 text-white font-bold px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 transform hover:scale-105 transition-transform duration-200 ease-in-out hover:from-red-600 hover:to-red-500"
-                    onClick={() => {
-                      setShowPopUpConfirm(true);
-                      setSelectedPostIdD(post.post_id);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faX} className="text-lg" />
-                    Từ chối
-                  </button>
-                </div>
-              )}
-
-              {role === "admin" && post.status === "Đã duyệt" && (
-                <div className="flex justify-center items-center gap-10">
-                  <button
-                    className="bg-gradient-to-r from-red-500 to-red-400 text-white font-bold px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 transform hover:scale-105 transition-transform duration-200 ease-in-out hover:from-red-600 hover:to-red-500"
-                    onClick={() => {
-                      setShowPopUpDelete(true);
-                      setSelectedPostIdD(post.post_id);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faX} className="text-lg" />
-                    Xóa bài đăng
-                  </button>
                 </div>
               )}
 

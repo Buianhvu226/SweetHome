@@ -92,7 +92,7 @@ const ProfileInformation = ({ name, date, user_id, post_id }) => {
             },
           }
         );
-        console.log(response);
+        console.log("=========> ava", response);
         if (response.data.avatar_url === null) {
           response.data.avatar_url =
             "https://th.bing.com/th/id/OIP.Kt4xItiSOKueszQh9UysdgAAAA?w=465&h=465&rs=1&pid=ImgDetMain";

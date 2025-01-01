@@ -204,7 +204,7 @@ const ImageCard = ({ postId, type, auth }) => {
           style={{
             backgroundImage:
               images.length > 0
-                ? `url(http://127.0.0.1:8000${images[currentImageIndex].image})`
+                ? `url(${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${images[currentImageIndex].image})`
                 : "none",
             backgroundSize: "cover",
             backgroundPosition: "center",

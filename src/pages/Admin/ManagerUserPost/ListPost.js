@@ -85,7 +85,7 @@ const ListPosts = () => {
           Danh Sách Bài Đăng Đã Duyệt
         </h1>
       </div>
-      <div className="rounded-lg h-[39rem] overflow-auto">
+      <div className="rounded-lg h-[38rem] overflow-auto">
         <Panel className="flex flex-col h-full" type="personal-page">
           <div className="relative h-full overflow-y-auto grid grid-cols-1 gap-4">
             {currentPosts.map((post, index) => (

@@ -22,7 +22,7 @@ const NotifyAdmin = () => {
 
   useEffect(() => {
     const websocket = new WebSocket(
-      `ws://127.0.0.1:8000/ws/notifications/?user_id=${id}`
+      `wss://165.232.170.169/ws/notifications/?user_id=${id}`
     );
 
     websocket.onopen = () => {

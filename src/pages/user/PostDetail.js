@@ -32,6 +32,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import NegotiationList from "../../components/neogotiation/NegotiationList";
 import MapView from "../../components/map_api/Mapbox";
+import Swal from "sweetalert2";
 
 const DetailPost = () => {
   const { id, sessionToken, role } = useAppContext();
@@ -51,6 +52,8 @@ const DetailPost = () => {
   // const [selectedPostIdD, setSelectedPostIdD] = useState(null);
   // const [showPopupD, setShowPopupD] = useState(false);
   const [isStatusPopupOpen, setIsStatusPopupOpen] = useState(false);
+
+  const today = new Date().toISOString().split("T")[0];
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -254,7 +257,18 @@ const DetailPost = () => {
 
   const handleSubmit = async () => {
     if (!price || !negotiationDate || !paymentMethod || !negotiationNote) {
-      alert("Vui lòng điền đầy đủ các trường bắt buộc.");
+      Swal.fire({
+        icon: "warning",
+        title: "Thiếu thông tin",
+        text: "Vui lòng điền đầy đủ các trường bắt buộc.",
+        confirmButtonText: "Đóng",
+        confirmButtonColor: "#dc3545",
+        didOpen: () => {
+          const popup = Swal.getPopup();
+          popup.style.fontFamily = "'Montserrat', sans-serif";
+          popup.style.fontWeight = 600;
+        },
+      });
       return;
     }
 
@@ -277,18 +291,41 @@ const DetailPost = () => {
         }
       );
       console.log("Negotiation response:", response.data);
+
       setIsPopupOpen(false);
       setPrice("");
       setNegotiationDate("");
       setPaymentMethod("");
       setNegotiationNote("");
-      alert("Đã gửi yêu cầu thương lượng thành công!");
-      window.location.reload();
+
+      Swal.fire({
+        icon: "success",
+        title: "Thành công",
+        text: "Đã gửi yêu cầu thương lượng thành công!",
+        confirmButtonText: "Đóng",
+        confirmButtonColor: "#28a745",
+        didOpen: () => {
+          const popup = Swal.getPopup();
+          popup.style.fontFamily = "'Montserrat', sans-serif";
+          popup.style.fontWeight = 600;
+        },
+      }).then(() => {
+        window.location.reload();
+      });
     } catch (error) {
       console.error("Error submitting negotiation:", error);
-      alert(
-        "Mức giá thương lượng bạn đưa ra không phù hợp. Vui lòng hãy thử lại với mức giá khác."
-      );
+      Swal.fire({
+        icon: "error",
+        title: "Lỗi",
+        text: "Mức giá thương lượng bạn đưa ra không phù hợp. Vui lòng hãy thử lại với mức giá khác.",
+        confirmButtonText: "Đóng",
+        confirmButtonColor: "#dc3545",
+        didOpen: () => {
+          const popup = Swal.getPopup();
+          popup.style.fontFamily = "'Montserrat', sans-serif";
+          popup.style.fontWeight = 600;
+        },
+      });
     }
   };
 
@@ -469,6 +506,7 @@ const DetailPost = () => {
                                   <input
                                     type="date"
                                     id="negotiationDate"
+                                    min={today}
                                     value={negotiationDate}
                                     onChange={(e) =>
                                       setNegotiationDate(e.target.value)

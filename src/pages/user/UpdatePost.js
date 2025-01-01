@@ -265,7 +265,7 @@ const UpdatePost = () => {
               value: legalStatus,
               setter: setLegalStatus,
               type: "select",
-              options: ["Sổ đỏ", "Sổ hồng", "Chưa có", "Khác"],
+              options: ["Sổ đỏ/Sổ hồng", "Chưa có", "Khác"],
             },
             {
               label: "Mặt tiền",
@@ -439,9 +439,7 @@ const UpdatePost = () => {
             <div className="bg-white text-red-700 rounded-full p-2">
               <FontAwesomeIcon icon={faMapMarkerAlt} />
             </div>
-            <label className="text-red-700 font-bold text-center">
-              Bản đồ
-            </label>
+            <label className="text-red-700 font-bold text-center">Bản đồ</label>
           </div>
           <MapUpdate
             longitude={post.longitude}

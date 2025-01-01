@@ -14,8 +14,9 @@ import User from "../../assets/image/User.png";
 
 const ChatWindow = ({ chatroomId, messages, setMessages, friendInfo }) => {
   const { sessionToken, id } = useAppContext();
-  // const [localFriendInfo, setLocalFriendInfo] = useState(friendInfo);
-  const wsUrl = `ws://127.0.0.1:8000/ws/chat/${chatroomId}/?user_id=${id}`;
+
+  // wss://165.232.170.169/ws/chat/472c4cdf-6a77-4496-b194-1fb88cc6e043/?user_id=85c31eb2-0cb8-481b-8891-0210102c904d
+  const wsUrl = `wss://165.232.170.169/ws/chat/${chatroomId}/?user_id=${id}`;
   const messagesEndRef = useRef(null);
   let navigate = useNavigate();
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
