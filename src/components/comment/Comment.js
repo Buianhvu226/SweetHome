@@ -6,6 +6,8 @@ import {
   FaExclamationTriangle,
   FaTimesCircle,
 } from "react-icons/fa";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import { useAppContext } from "../../AppProvider";
 import ReportPopup from "../report/ReportPopup ";
 import User from "../../assets/image/User.png";
@@ -214,7 +216,7 @@ const Comment = ({ post_id, sessionToken, reportedCmtId }) => {
               className="flex flex-col items-start mb-4 bg-gray-100 p-3 rounded-2xl w-full"
             >
               <div className="flex items-center w-full">
-                <img
+                <LazyLoadImage
                   src={comment.avatar_url ? comment.avatar_url : User}
                   alt={comment.username}
                   className="w-12 h-12 rounded-full mr-3 object-cover border-gray-100 border-solid border-[1px] bg-gray-500"

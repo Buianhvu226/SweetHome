@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "../../../components/pagination/pagination";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useAppContext } from "../../../AppProvider";
 import { useNavigate } from "react-router-dom";
 
@@ -323,7 +324,7 @@ const ManagerUserAccount = () => {
                   </td>
                   <td className="border border-gray-300 px-4 py-3 whitespace-nowrap">
                     {account.avatar ? (
-                      <img
+                      <LazyLoadImage
                         src={`${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${account.avatar}`}
                         alt="Avatar"
                         className="w-10 h-10 rounded-full mx-auto object-cover"

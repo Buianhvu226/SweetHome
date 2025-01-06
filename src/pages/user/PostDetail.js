@@ -38,8 +38,8 @@ const DetailPost = () => {
   const { id, sessionToken, role } = useAppContext();
   const { postId } = useParams();
   const [post, setPost] = useState();
-  const [isClicked, setIsClicked] = useState();
-  const [isSaved, setIsSaved] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const [isSaved, setIsSaved] = useState();
   const navigate = useNavigate();
   const [reactionsCount, setReactionsCount] = useState();
   const [commentCount, setCommentCount] = useState();
@@ -49,8 +49,6 @@ const DetailPost = () => {
   const [negotiationDate, setNegotiationDate] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [negotiationNote, setNegotiationNote] = useState("");
-  // const [selectedPostIdD, setSelectedPostIdD] = useState(null);
-  // const [showPopupD, setShowPopupD] = useState(false);
   const [isStatusPopupOpen, setIsStatusPopupOpen] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
@@ -72,11 +70,30 @@ const DetailPost = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleSaveClick = () => {
-    setTimeout(() => {
-      setIsSaved(!isSaved);
-    }, 80);
-  };
+  const handleSaveClick = useCallback(async () => {
+    if (!sessionToken) {
+      alert("Bạn cần đăng nhập để thực hiện hành động này.");
+      return;
+    }
+
+    const method = isSaved ? "DELETE" : "POST";
+    setIsSaved(!isSaved);
+    setSavesCount((prev) => (isSaved ? prev - 1 : prev + 1));
+
+    try {
+      await axios({
+        method,
+        url: `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}/api/saved-posts/${postId}/`,
+        data: {},
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error("Error saving the post:", error);
+    }
+  }, [sessionToken, postId, isSaved]);
 
   const handleUpdate = (postId) => {
     navigate(`/user/update-post/${postId}`);
@@ -146,7 +163,6 @@ const DetailPost = () => {
     console.log("Post ID:", postId);
     const fetchPostById = async () => {
       try {
-        // let url = `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}/api/posts/${postId}/`;
         let url = `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}/api/posts/${postId}/`;
         const response = await fetch(url, {
           method: "GET",
@@ -193,25 +209,50 @@ const DetailPost = () => {
         console.error("Error checking liked posts:", error);
       }
     };
+
+    // Check save
+    const checkSaved = async () => {
+      if (role !== "admin" && role) {
+        try {
+          const response = await axios.get(
+            `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}/api/saved-posts/${id}/`,
+            {
+              headers: {
+                Authorization: `Bearer ${sessionToken}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (response.status === 200) {
+            const savedPosts = response.data.map((post) => postId);
+            if (savedPosts.includes(postId)) {
+              setIsSaved(true);
+            }
+          }
+        } catch (error) {
+          console.error("Error checking saved posts:", error);
+        }
+      }
+    };
+
+    checkSaved();
     checkLiked();
+  }, [postId, sessionToken, role, id]);
 
-    // fetch images
-  }, [postId, sessionToken]);
-
-  // check liked
-  // useEffect(() => {}, [sessionToken, postId]);
+  // load state
+  useEffect(() => {}, [sessionToken, postId, isClicked]);
 
   const handleClick = useCallback(async () => {
-    // setIsClicked((prevClicked) => {
-    //   setReactionsCount((prevCount) =>
-    //     prevClicked ? prevCount - 1 : prevCount + 1
-    //   );
-    //   return !prevClicked;
-    // });
     if (!sessionToken) {
       alert("Bạn cần đăng nhập để thực hiện hành động này.");
       return;
     } else {
+      setIsClicked((prevClicked) => {
+        setReactionsCount((prevCount) =>
+          prevClicked ? prevCount - 1 : prevCount + 1
+        );
+        return !prevClicked;
+      });
       try {
         await axios.post(
           `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}/api/posts/${postId}/like/`,
@@ -226,11 +267,9 @@ const DetailPost = () => {
       } catch (error) {
         console.error("Error liking the post:", error);
       }
-      window.location.reload();
     }
   }, [sessionToken, postId]);
 
-  //test upload image
   const handleUploadImage = () => {
     navigate(`/upload-image/${postId}`);
   };
@@ -414,6 +453,7 @@ const DetailPost = () => {
                     </button>
                     <span>{savesCount}</span>
                   </div>
+                  
                 </div>
               </div>
               <div className="flex items-center justify-center mb-10 mt-5 border-b-[2px] border-gray-300 border-solid pb-5">

@@ -10,6 +10,7 @@ import {
   faX,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import User from "../../assets/image/User.png";
 
 const ChatWindow = ({ chatroomId, messages, setMessages, friendInfo }) => {
@@ -230,7 +231,7 @@ const ChatWindow = ({ chatroomId, messages, setMessages, friendInfo }) => {
           <div className="">
             {friendInfo && (
               <div className="flex items-center mb-4 bg-white border-solid border-gray-300 border-[1px] p-2 rounded-lg shadow-md">
-                <img
+                <LazyLoadImage
                   src={
                     friendInfo.avatar
                       ? `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${friendInfo.avatar}`

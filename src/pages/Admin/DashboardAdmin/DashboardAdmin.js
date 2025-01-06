@@ -12,7 +12,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { motion } from "framer-motion";
-import ImgThreeDots from "../../../assets/image/more-2-line.png";
 import {
   faComment,
   faE,

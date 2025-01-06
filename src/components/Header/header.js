@@ -4,6 +4,7 @@ import Logo from "../../assets/image/Logo.png";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import {
   faHome,
   faChartLine,
@@ -245,7 +246,7 @@ function Header() {
             <div className="flex flex-row gap-5">
               <NotifyUser />
               <div className="flex items-center gap-4">
-                <img
+                <LazyLoadImage
                   src={ava ? ava : User}
                   alt="avatar"
                   className="w-[2.5rem] h-[2.5rem] rounded-full border-[1px] border-gray-300 border-solid object-cover"

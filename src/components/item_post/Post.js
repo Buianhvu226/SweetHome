@@ -77,12 +77,8 @@ function Post({ post, type }) {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setReactionsCount(post.reactions_count);
-      setSavesCount(post.save_count);
-    }, 2000);
-
-    return () => clearInterval(interval);
+    setReactionsCount(post.reactions_count);
+    setSavesCount(post.save_count);
   }, [post.reactions_count, post.save_count]);
 
   useEffect(() => {
@@ -156,6 +152,7 @@ function Post({ post, type }) {
       try {
         const res = await axios.post(
           `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}/api/posts/${post.post_id}/like/`,
+          {},
           {
             headers: {
               Authorization: `Bearer ${sessionToken}`,
@@ -170,43 +167,34 @@ function Post({ post, type }) {
         console.error("Error liking the post:", error);
       }
     }
-
-    // const interval = setInterval(() => {
-    //   setReactionsCount(post.reactions_count);
-    //   setSavesCount(post.save_count);
-    // }, 2000);
-
-    // Dọn dẹp interval khi component bị unmount
-    // return () => clearInterval(interval);
   }, [sessionToken, post.post_id]);
 
   const handleSaveClick = useCallback(async () => {
     if (!sessionToken) {
       alert("Bạn cần đăng nhập để thực hiện hành động này.");
       return;
-    } else {
-      setIsSaved((prevSaved) => {
-        setSavesCount((prevCount) =>
-          prevSaved ? prevCount - 1 : prevCount + 1
-        );
-        return !prevSaved;
-      });
-      try {
-        await axios.post(
-          `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}/api/saved-posts/${post.post_id}/`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${sessionToken}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-      } catch (error) {
-        console.error("Error saving the post:", error);
-      }
     }
-  }, [sessionToken, post.post_id]);
+    // Dựa vào 'isSaved' để xác định phương thức
+    const method = isSaved ? "DELETE" : "POST";
+
+    // Cập nhật UI ngay lập tức
+    setIsSaved(!isSaved);
+    setSavesCount((prev) => (isSaved ? prev - 1 : prev + 1));
+
+    try {
+      await axios({
+        method,
+        url: `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}/api/saved-posts/${post.post_id}/`,
+        data: {},
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error("Error saving the post:", error);
+    }
+  }, [sessionToken, post.post_id, isSaved]);
 
   const formatPrice = (price) => {
     if (price >= 1_000_000_000) {
@@ -1269,12 +1257,7 @@ function Post({ post, type }) {
                             isClicked ? "text-red-400" : "text-gray-500"
                           }`}
                         />
-                        <span>
-                          {/* {isClicked && reactionsCount === 0
-                        ? reactionsCount + 1
-                        : reactionsCount} */}
-                          {reactionsCount}
-                        </span>
+                        <span>{reactionsCount}</span>
                       </div>
                     </button>
                     <span className="text-xs">Yêu thích</span>
@@ -1291,37 +1274,41 @@ function Post({ post, type }) {
                     </div>
                     <span className="text-xs">Bình luận</span>
                   </div>
+
+                  {/* Save */}
+                  <div
+                    className="flex flex-col items-center text-gray-500 gap-2"
+                    title="Lưu bài"
+                  >
+                    <button
+                      onClick={() => {
+                        if (post.user.user_id === id) {
+                          alert("Không thể lưu bài đăng của chính mình!");
+                          return;
+                        }
+                        handleSaveClick();
+                      }}
+                      className="focus:outline-none"
+                    >
+                      <div className="flex gap-2 items-center space-x-1">
+                        <FontAwesomeIcon
+                          icon={faBookmark}
+                          className={`w-6 h-6 transition duration-100 ${
+                            isSaved ? "text-yellow-400" : "text-gray-500"
+                          }`}
+                        />
+                        <span>{savesCount}</span>
+                      </div>
+                    </button>
+                    <span className="text-xs">Lưu bài</span>
+                  </div>
                 </>
               )}
 
               {/* Save */}
-              {type !== "personal-page" && (
-                <div
-                  className="flex flex-col items-center text-gray-500 gap-2"
-                  title="Lưu bài"
-                >
-                  <button
-                    onClick={handleSaveClick}
-                    className="focus:outline-none"
-                  >
-                    <div className="flex gap-2 items-center space-x-1">
-                      <FontAwesomeIcon
-                        icon={faBookmark}
-                        className={`w-6 h-6 transition duration-100 ${
-                          isSaved ? "text-yellow-400" : "text-gray-500"
-                        }`}
-                      />
-                      <span>
-                        {/* {isSaved && savesCount === 0
-                          ? savesCount + 1
-                          : savesCount} */}
-                        {savesCount}
-                      </span>
-                    </div>
-                  </button>
-                  <span className="text-xs">Lưu bài</span>
-                </div>
-              )}
+              {/* {type !== "personal-page" && (
+
+              )} */}
 
               {showPopupD && (
                 <div

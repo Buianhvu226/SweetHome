@@ -7,6 +7,7 @@ import {
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useRef } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useAppContext } from "../../AppProvider";
 import { useNavigate } from "react-router-dom";
 import User from "../../assets/image/User.png";
@@ -140,7 +141,7 @@ const NotifyAdmin = () => {
                   } hover:bg-blue-100 transition duration-300`}
                 >
                   {notification.data.additional_info?.post_id ? (
-                    <img
+                    <LazyLoadImage
                       // src={`${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${notification.data.additional_info.author_avatar}`}
                       src={
                         notification.data.additional_info.author_avatar
@@ -151,7 +152,7 @@ const NotifyAdmin = () => {
                       className="h-12 w-12 rounded-full mr-3 object-cover border-[1px] border-gray-400 border-solid"
                     />
                   ) : (
-                    <img
+                    <LazyLoadImage
                       // src={`${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${notification.data.additional_info.reportee_avatar}`}
                       src={
                         notification.data.additional_info.reportee_avatar

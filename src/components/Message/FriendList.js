@@ -7,6 +7,7 @@ import {
   faCommentDots,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAppContext } from "../../AppProvider";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import User from "../../assets/image/User.png";
 
@@ -143,7 +144,7 @@ export default function FriendList({ selectFriend }) {
                 className="p-2 rounded-lg flex items-center bg-gray-200 text-black font-semibold relative shadow-md border-[1px] border-gray-300 border-solid"
               >
                 {/* Avatar */}
-                <img
+                <LazyLoadImage
                   src={
                     participant.avatar
                       ? `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${participant.avatar}`
@@ -253,7 +254,7 @@ export default function FriendList({ selectFriend }) {
                 className="p-2 rounded-lg flex items-center bg-gray-200 text-black font-semibold relative shadow-md border-[1px] border-gray-300 border-solid"
               >
                 {/* Avatar */}
-                <img
+                <LazyLoadImage
                   src={
                     participant.avatar
                       ? `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${participant.avatar}`

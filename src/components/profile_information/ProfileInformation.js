@@ -6,6 +6,7 @@ import {
   faFlag,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../AppProvider";
@@ -131,7 +132,7 @@ const ProfileInformation = ({ name, date, user_id, post_id }) => {
       {/* Profile Info */}
 
       <div className="flex items-center mt-1">
-        <img
+        <LazyLoadImage
           className="w-10 h-10 rounded-full mr-3 object-cover"
           src={ava ? ava : User}
           alt="avatar"

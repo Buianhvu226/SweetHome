@@ -3,6 +3,8 @@ import { useAppContext } from "../../../AppProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import Logo from "../../../assets/image/Logo.png";
 import User from "../../../assets/image/User.png";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const ReportDetail = () => {
   const [report, setReport] = useState(null);
@@ -111,7 +113,7 @@ const ReportDetail = () => {
                 Người Báo Cáo
               </h2>
               <div className="flex items-center space-x-4">
-                <img
+                <LazyLoadImage
                   // src={`${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${report.reportee_avt}`}
                   src={
                     report.reportee_avt
@@ -141,7 +143,7 @@ const ReportDetail = () => {
                 Người Bị Báo Cáo
               </h2>
               <div className="flex items-center space-x-4">
-                <img
+                <LazyLoadImage
                   // src={`${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${report.reported_user_avt}`}
                   src={
                     report.reported_user_avt

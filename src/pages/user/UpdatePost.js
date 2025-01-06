@@ -32,6 +32,8 @@ const UpdatePost = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [area, setArea] = useState("");
+  const [width, setWidth] = useState("");
+  const [length, setLength] = useState("");
   const [orientation, setOrientation] = useState("");
   const [bedroom, setBedroom] = useState("");
   const [bathroom, setBathroom] = useState("");
@@ -39,6 +41,7 @@ const UpdatePost = () => {
   const [legalStatus, setLegalStatus] = useState("");
   const [frontage, setFrontage] = useState("");
   const [address, setAddress] = useState("");
+  const [ward, setWard] = useState("");
   const [district, setDistrict] = useState("");
   const [city, setCity] = useState("");
   const [description, setDescription] = useState("");
@@ -48,6 +51,84 @@ const UpdatePost = () => {
   const [latitude, setLatitude] = useState(null);
   const [estateType, setEstateType] = useState("");
   let navigate = useNavigate();
+
+  useEffect(() => {
+    const wardToDistrictMap = {
+      // Quận Liên Chiểu
+      "Hòa Hiệp Bắc": "Liên Chiểu",
+      "Hòa Hiệp Nam": "Liên Chiểu",
+      "Hòa Khánh Bắc": "Liên Chiểu",
+      "Hòa Khánh Nam": "Liên Chiểu",
+      "Hòa Minh": "Liên Chiểu",
+
+      // Quận Thanh Khê
+      "Tam Thuận": "Thanh Khê",
+      "Thanh Khê Tây": "Thanh Khê",
+      "Thanh Khê Đông": "Thanh Khê",
+      "Xuân Hà": "Thanh Khê",
+      "Tân Chính": "Thanh Khê",
+      "Chính Gián": "Thanh Khê",
+      "Vĩnh Trung": "Thanh Khê",
+      "Thạc Gián": "Thanh Khê",
+      "An Khê": "Thanh Khê",
+      "Hòa Khê": "Thanh Khê",
+
+      // Quận Hải Châu
+      "Thanh Bình": "Hải Châu",
+      "Thuận Phước": "Hải Châu",
+      "Thạch Thang": "Hải Châu",
+      "Hải Châu I": "Hải Châu",
+      "Hải Châu II": "Hải Châu",
+      "Phước Ninh": "Hải Châu",
+      "Hòa Thuận Tây": "Hải Châu",
+      "Hòa Thuận Đông": "Hải Châu",
+      "Nam Dương": "Hải Châu",
+      "Bình Hiên": "Hải Châu",
+      "Bình Thuận": "Hải Châu",
+      "Hòa Cường Bắc": "Hải Châu",
+      "Hòa Cường Nam": "Hải Châu",
+
+      // Quận Sơn Trà
+      "Thọ Quang": "Sơn Trà",
+      "Nại Hiên Đông": "Sơn Trà",
+      "Mân Thái": "Sơn Trà",
+      "An Hải Bắc": "Sơn Trà",
+      "Phước Mỹ": "Sơn Trà",
+      "An Hải Tây": "Sơn Trà",
+      "An Hải Đông": "Sơn Trà",
+
+      // Quận Ngũ Hành Sơn
+      "Mỹ An": "Ngũ Hành Sơn",
+      "Khuê Mỹ": "Ngũ Hành Sơn",
+      "Hoà Quý": "Ngũ Hành Sơn",
+      "Hoà Hải": "Ngũ Hành Sơn",
+
+      // Quận Cẩm Lệ
+      "Khuê Trung": "Cẩm Lệ",
+      "Hòa Phát": "Cẩm Lệ",
+      "Hòa An": "Cẩm Lệ",
+      "Hòa Thọ Tây": "Cẩm Lệ",
+      "Hòa Thọ Đông": "Cẩm Lệ",
+      "Hòa Xuân": "Cẩm Lệ",
+
+      // Huyện Hòa Vang
+      "Hòa Bắc": "Hòa Vang",
+      "Hòa Liên": "Hòa Vang",
+      "Hòa Ninh": "Hòa Vang",
+      "Hòa Sơn": "Hòa Vang",
+      "Hòa Nhơn": "Hòa Vang",
+      "Hòa Phú": "Hòa Vang",
+      "Hòa Phong": "Hòa Vang",
+      "Hòa Châu": "Hòa Vang",
+      "Hòa Tiến": "Hòa Vang",
+      "Hòa Phước": "Hòa Vang",
+      "Hòa Khương": "Hòa Vang",
+    };
+    if (ward) {
+      setDistrict(wardToDistrictMap[ward] || "");
+      setCity("Đà Nẵng"); // Nếu muốn tự động đặt city
+    }
+  }, [ward, setDistrict, setCity]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -71,6 +152,8 @@ const UpdatePost = () => {
         setTitle(data.title);
         setPrice(data.price);
         setArea(data.area);
+        setWidth(data.width);
+        setLength(data.length);
         setOrientation(data.orientation);
         setBedroom(data.bedroom);
         setBathroom(data.bathroom);
@@ -78,6 +161,7 @@ const UpdatePost = () => {
         setLegalStatus(data.legal_status);
         setFrontage(data.frontage);
         setAddress(data.address);
+        setWard(data.ward);
         setDistrict(data.district);
         setCity(data.city);
         setDescription(data.description);
@@ -98,6 +182,8 @@ const UpdatePost = () => {
       title,
       price,
       area,
+      width,
+      length,
       orientation,
       bedroom,
       bathroom,
@@ -105,6 +191,7 @@ const UpdatePost = () => {
       legal_status: legalStatus,
       frontage,
       address,
+      ward,
       district,
       city,
       description,
@@ -148,7 +235,7 @@ const UpdatePost = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-[#E4FFFC] to-blue-400 font-montserrat p-10">
+    <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-blue-100 to-blue-200 font-montserrat p-10">
       <h3 className="text-3xl font-bold text-white flex items-center gap-3 bg-blue-500 px-8 py-4 rounded-full shadow-lg mb-8">
         <FontAwesomeIcon icon={faListAlt} className="text-white" />
         Chỉnh sửa bài đăng
@@ -209,6 +296,24 @@ const UpdatePost = () => {
               bg: "bg-purple-100",
               value: area,
               setter: setArea,
+              type: "number",
+            },
+            {
+              label: "Chiều rộng",
+              icon: faRuler,
+              color: "text-purple-600",
+              bg: "bg-purple-100",
+              value: width,
+              setter: setWidth,
+              type: "number",
+            },
+            {
+              label: "Chiều dài",
+              icon: faRuler,
+              color: "text-purple-600",
+              bg: "bg-purple-100",
+              value: length,
+              setter: setLength,
               type: "number",
             },
             {
@@ -285,6 +390,75 @@ const UpdatePost = () => {
               setter: setAddress,
               type: "input",
             },
+
+            {
+              label: "Phường/Xã",
+              icon: faMapSigns,
+              color: "text-green-600",
+              bg: "bg-green-100",
+              value: ward,
+              setter: setWard,
+              type: "select",
+              options: [
+                "Hòa Hiệp Bắc",
+                "Hòa Hiệp Nam",
+                "Hòa Khánh Bắc",
+                "Hòa Khánh Nam",
+                "Hòa Minh",
+                "Tam Thuận",
+                "Thanh Khê Tây",
+                "Thanh Khê Đông",
+                "Xuân Hà",
+                "Tân Chính",
+                "Chính Gián",
+                "Vĩnh Trung",
+                "Thạc Gián",
+                "An Khê",
+                "Hòa Khê",
+                "Thanh Bình",
+                "Thuận Phước",
+                "Thạch Thang",
+                "Hải Châu I",
+                "Hải Châu II",
+                "Phước Ninh",
+                "Hòa Thuận Tây",
+                "Hòa Thuận Đông",
+                "Nam Dương",
+                "Bình Hiên",
+                "Bình Thuận",
+                "Hòa Cường Bắc",
+                "Hòa Cường Nam",
+                "Thọ Quang",
+                "Nại Hiên Đông",
+                "Mân Thái",
+                "An Hải Bắc",
+                "Phước Mỹ",
+                "An Hải Tây",
+                "An Hải Đông",
+                "Mỹ An",
+                "Khuê Mỹ",
+                "Hoà Quý",
+                "Hoà Hải",
+                "Khuê Trung",
+                "Hòa Phát",
+                "Hòa An",
+                "Hòa Thọ Tây",
+                "Hòa Thọ Đông",
+                "Hòa Xuân",
+                "Hòa Bắc",
+                "Hòa Liên",
+                "Hòa Ninh",
+                "Hòa Sơn",
+                "Hòa Nhơn",
+                "Hòa Phú",
+                "Hòa Phong",
+                "Hòa Châu",
+                "Hòa Tiến",
+                "Hòa Phước",
+                "Hòa Khương",
+              ],
+            },
+
             {
               label: "Quận/Huyện",
               icon: faMapSigns,
@@ -357,6 +531,26 @@ const UpdatePost = () => {
                 />
               )}
               {field.type === "number" && field.label === "Diện tích" && (
+                <input
+                  type="number"
+                  min="0"
+                  placeholder={field.label}
+                  value={field.value}
+                  onChange={(e) => field.setter(e.target.value)}
+                  className="input-style border-gray-300 border-[1px] border-double p-2 rounded-lg bg-blue-50 focus:border-blue-400 focus:bg-white flex-grow"
+                />
+              )}
+              {field.type === "number" && field.label === "Chiều rộng" && (
+                <input
+                  type="number"
+                  min="0"
+                  placeholder={field.label}
+                  value={field.value}
+                  onChange={(e) => field.setter(e.target.value)}
+                  className="input-style border-gray-300 border-[1px] border-double p-2 rounded-lg bg-blue-50 focus:border-blue-400 focus:bg-white flex-grow"
+                />
+              )}
+              {field.type === "number" && field.label === "Chiều dài" && (
                 <input
                   type="number"
                   min="0"

@@ -3,6 +3,8 @@ import { useAppContext } from "../../../AppProvider";
 import { useNavigate } from "react-router-dom";
 import User from "../../../assets/image/User.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import { faListAlt } from "@fortawesome/free-solid-svg-icons";
 
 const ReportList = () => {
@@ -123,7 +125,7 @@ const ReportList = () => {
                       Người Báo Cáo
                     </label>
                     <div className="flex items-center bg-gray-50 p-4 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out">
-                      <img
+                      <LazyLoadImage
                         // src={`${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${report.reportee_avt}`}
                         src={
                           report.reportee_avt
@@ -153,7 +155,7 @@ const ReportList = () => {
                       Người Bị Báo Cáo
                     </label>
                     <div className="flex items-center bg-gray-50 p-4 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out">
-                      <img
+                      <LazyLoadImage
                         // src={`${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${report.reported_user_avt}`}
                         src={
                           report.reported_user_avt

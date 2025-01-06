@@ -7,6 +7,7 @@ import { useState } from "react";
 import axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import {
   faUser,
   faEnvelope,
@@ -187,13 +188,13 @@ const ProfileCard = ({ openLockPopup_, openUnLockPopup_ }) => {
       <div className="mb-4 flex flex-col justify-center">
         <div className="grid justify-center">
           {avatar ? (
-            <img
+            <LazyLoadImage
               src={avatar}
               alt="profile"
               className="rounded-full w-[12rem] h-[12rem] object-cover bg-gray-300 border-[3px] border-gray-200 border-solid shadow-lg"
             />
           ) : (
-            <img
+            <LazyLoadImage
               //Ảnh thay thế
               src="https://th.bing.com/th/id/OIP.PVzhiWdGqLXudD0PNtsMtwHaHa?w=980&h=980&rs=1&pid=ImgDetMain"
               alt="profile"
@@ -208,7 +209,6 @@ const ProfileCard = ({ openLockPopup_, openUnLockPopup_ }) => {
                 onClick={() => fileInputRef.current.click()}
               >
                 <FontAwesomeIcon icon={faCamera} className="ml-2" />{" "}
-                {/* Thêm biểu tượng */}
                 Thay đổi ảnh đại diện
               </button>
 
@@ -239,7 +239,6 @@ const ProfileCard = ({ openLockPopup_, openUnLockPopup_ }) => {
                       onClick={() => openLockPopup_(userId)}
                     >
                       <FontAwesomeIcon icon={faBan} className="" />{" "}
-                      {/* Thêm biểu tượng */}
                       Khóa tài khoản
                     </button>
                   )}
@@ -256,7 +255,7 @@ const ProfileCard = ({ openLockPopup_, openUnLockPopup_ }) => {
             className="bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300 text-black font-bold px-4 py-2 rounded-lg w-full mb-4 shadow-lg hover:shadow-xl hover:from-gray-500 hover:to-gray-600 hover:text-white border-[1px] border-white border-solid transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
             onClick={() => handleUpdateProfile()}
           >
-            <FontAwesomeIcon icon={faUserEdit} /> {/* Thêm biểu tượng */}
+            <FontAwesomeIcon icon={faUserEdit} />
             Cập nhật trang cá nhân
           </button>
         </>

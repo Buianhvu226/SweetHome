@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAppContext } from "../../AppProvider";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const ImageCard = ({ postId, type, auth }) => {
   const [images, setImages] = useState([]);
@@ -155,7 +156,7 @@ const ImageCard = ({ postId, type, auth }) => {
                     index === currentImageIndex ? "block" : "hidden"
                   }`}
                 >
-                  <img
+                  <LazyLoadImage
                     src={`${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${image.image}`}
                     alt={`Ảnh của bài đăng: ${image.post_id}`}
                     className="rounded-lg w-[50rem] h-[30rem] object-contain shadow-2xl bg-black"
@@ -183,7 +184,7 @@ const ImageCard = ({ postId, type, auth }) => {
                   className="cursor-pointer"
                   onClick={() => handleThumbnailClick(index)}
                 >
-                  <img
+                  <LazyLoadImage
                     src={`${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${image.image}`}
                     alt={`Ảnh của bài đăng: ${image.post_id}`}
                     className={`rounded-lg w-[5rem] h-[3rem] object-contain shadow-2xl bg-black ${
@@ -261,7 +262,7 @@ const ImageCard = ({ postId, type, auth }) => {
                     key={images[currentImageIndex].image_id}
                     className="flex justify-center mb-4"
                   >
-                    <img
+                    <LazyLoadImage
                       src={`${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${images[currentImageIndex].image}`}
                       alt={`Ảnh của bài đăng: ${images[currentImageIndex].post_id}`}
                       className="rounded-lg w-auto h-[20rem] object-contain shadow-2xl bg-black"
@@ -275,7 +276,7 @@ const ImageCard = ({ postId, type, auth }) => {
                           className="flex justify-center cursor-pointer"
                           onClick={() => handleThumbnailClick(index)}
                         >
-                          <img
+                          <LazyLoadImage
                             src={`${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${image.image}`}
                             alt={`Ảnh của bài đăng: ${image.post_id}`}
                             className={`rounded-lg w-[5rem] h-[3rem] object-contain shadow-2xl bg-black ${
@@ -299,7 +300,7 @@ const ImageCard = ({ postId, type, auth }) => {
               ) : (
                 <div className="flex flex-col items-center">
                   <h2>Không có ảnh nào ...</h2>
-                  <img
+                  <LazyLoadImage
                     src="https://th.bing.com/th/id/OIP.lrbE4OifoZsRx2TmPb0wvwAAAA?rs=1&pid=ImgDetMain"
                     alt="Không có ảnh nào ..."
                     className="rounded-lg w-[30rem] h-[15rem] object-contain"
