@@ -20,7 +20,11 @@ const DetailDescription = ({
       : safeDescription;
 
   return (
-    <div className="border-[1px] border-double border-gray-200 rounded-lg p-4 space-y-2 shadow-md">
+    <div
+      className={`border-[1px] border-double border-gray-200 rounded-lg p-4 space-y-2 shadow-md ${
+        isDetailPostPage ? "min-h-[23rem]" : ""
+      }`}
+    >
       <div className="mb-3 flex text-lg">
         <FaQuoteLeft className="text-2xl text-blue-500" />{" "}
         <h2 className="text-gray-600 underline text-lg mb-1 ml-5 font-extrabold">

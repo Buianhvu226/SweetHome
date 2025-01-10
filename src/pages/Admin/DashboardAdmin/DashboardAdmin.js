@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAppContext } from "../../../AppProvider";
 import {
@@ -14,7 +14,6 @@ import {
 import { motion } from "framer-motion";
 import {
   faComment,
-  faE,
   faEye,
   faHeart,
   faNewspaper,

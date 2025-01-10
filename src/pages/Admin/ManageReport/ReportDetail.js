@@ -120,8 +120,11 @@ const ReportDetail = () => {
                       ? `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${report.reportee_avt}`
                       : User
                   }
+                  onClick={() => {
+                    handlePersonalProfileClick(report.reportee_id);
+                  }}
                   alt={report.reportee_name}
-                  className="w-16 h-16 rounded-full object-cover border-2 border-blue-400"
+                  className="w-16 h-16 rounded-full object-cover border-2 border-blue-400 cursor-pointer"
                 />
                 <div>
                   <h3 className="text-lg font-semibold text-gray-800">
@@ -150,8 +153,11 @@ const ReportDetail = () => {
                       ? `${process.env.REACT_APP_SWEETHOME_API_ENDPOINT}${report.reported_user_avt}`
                       : User
                   }
+                  onClick={() => {
+                    handlePersonalProfileClick(report.reported_user_id);
+                  }}
                   alt={report.reported_user_name}
-                  className="w-16 h-16 rounded-full object-cover border-2 border-red-400"
+                  className="w-16 h-16 rounded-full object-cover border-2 border-red-400 cursor-pointer"
                 />
                 <div>
                   <h3 className="text-lg font-semibold text-gray-800">

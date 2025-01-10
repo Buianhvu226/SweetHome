@@ -330,7 +330,7 @@ const Comment = ({ post_id, sessionToken, reportedCmtId }) => {
                 id="comment"
                 cols="30"
                 rows="10"
-                className="w-[25rem] h-[5rem] border-[2px] border-double border-gray-400 rounded-[0.5rem] p-2 mt-4"
+                className="w-[25rem] h-[5rem] min-h-[2.5rem] max-h-[10rem] border-[2px] border-double border-gray-400 rounded-[0.5rem] p-2 mt-4"
                 placeholder="Hãy nhập bình luận của bạn..."
                 value={comment}
                 onChange={handleCommentChange}

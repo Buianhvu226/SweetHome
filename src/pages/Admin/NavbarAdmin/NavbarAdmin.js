@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Logo from "../../../assets/image/Logo.png";
-import Icon1 from "../../../assets/image/health.png";
-import Icon2 from "../../../assets/image/clipboard-text.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ArrowIcon from "../../../assets/image/Frame12.png";
+import {
+  faChartBar,
+  faUser,
+  faNewspaper,
+  faFlag,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = ({ isCollapsed, toggleNavbar, handleMenuClick, activeMenu }) => {
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
@@ -78,14 +83,16 @@ const Navbar = ({ isCollapsed, toggleNavbar, handleMenuClick, activeMenu }) => {
       <ul className="mt-8 space-y-2">
         <li
           onClick={() => handleMenuClickWithStorage("dashboard")}
-          className="flex items-center gap-12 navbar-item p-3 hover:bg-[#9EBBD8] rounded-xl cursor-pointer"
+          className={`flex items-center gap-12 navbar-item p-3 rounded-xl cursor-pointer ${
+            activeMenu === "dashboard" ? "bg-[#9EBBD8]" : "hover:bg-[#9EBBD8]"
+          }`}
         >
-          <img src={Icon1} className="w-[23px] h-[23px]" alt="" />
+          <FontAwesomeIcon icon={faChartBar} className="w-[23px] h-[23px]" />
           <a
             href="#!"
             className={`block  rounded ${isCollapsed ? "hidden" : "block"}`}
           >
-            Bảng điều khiển
+            Bảng thống kê
           </a>
         </li>
 
@@ -93,13 +100,16 @@ const Navbar = ({ isCollapsed, toggleNavbar, handleMenuClick, activeMenu }) => {
         <li>
           <button
             onClick={toggleAccountMenu}
-            className="flex justify-between items-center cursor-pointer w-full p-3 hover:bg-[#9EBBD8] rounded-xl transition-all duration-300 ease-in-out"
+            className={`flex justify-between items-center cursor-pointer w-full p-3 rounded-xl transition-all duration-300 ease-in-out ${
+              activeMenu === "accountList"
+                ? "bg-[#9EBBD8]"
+                : "hover:bg-[#9EBBD8]"
+            }`}
           >
-            <img
-              onClick={() => handleMenuClickWithStorage("accountList")}
-              src={Icon2}
+            <FontAwesomeIcon
+              icon={faUser}
               className="w-[23px] h-[23px]"
-              alt=""
+              onClick={() => handleMenuClickWithStorage("accountList")}
             />
 
             <span className={`block ${isCollapsed ? "hidden" : "block"}`}>
@@ -141,13 +151,16 @@ const Navbar = ({ isCollapsed, toggleNavbar, handleMenuClick, activeMenu }) => {
         <li>
           <button
             onClick={togglePostMenu}
-            className="flex justify-between cursor-pointer items-center w-full p-3 hover:bg-[#9EBBD8] rounded-xl"
+            className={`flex justify-between cursor-pointer items-center w-full p-3 rounded-xl ${
+              activeMenu === "managePosts" || activeMenu === "browsePosts"
+                ? "bg-[#9EBBD8]"
+                : "hover:bg-[#9EBBD8]"
+            }`}
           >
-            <img
-              onClick={() => handleMenuClickWithStorage("managePosts")}
-              src={Icon2}
+            <FontAwesomeIcon
+              icon={faNewspaper}
               className="w-[23px] h-[23px]"
-              alt=""
+              onClick={() => handleMenuClickWithStorage("managePosts")}
             />
             <span className={`block ${isCollapsed ? "hidden" : "block"}`}>
               Quản lý bài đăng
@@ -198,13 +211,16 @@ const Navbar = ({ isCollapsed, toggleNavbar, handleMenuClick, activeMenu }) => {
         <li>
           <button
             onClick={toggleReportMenu}
-            className="flex justify-between items-center cursor-pointer w-full p-3 hover:bg-[#9EBBD8] rounded-xl transition-all duration-300 ease-in-out"
+            className={`flex justify-between items-center cursor-pointer w-full p-3 rounded-xl transition-all duration-300 ease-in-out ${
+              activeMenu === "manageReports"
+                ? "bg-[#9EBBD8]"
+                : "hover:bg-[#9EBBD8]"
+            }`}
           >
-            <img
-              onClick={() => handleMenuClickWithStorage("manageReports")}
-              src={Icon2}
+            <FontAwesomeIcon
+              icon={faFlag}
               className="w-[23px] h-[23px]"
-              alt=""
+              onClick={() => handleMenuClickWithStorage("managePosts")}
             />
 
             <span className={`block ${isCollapsed ? "hidden" : "block"}`}>

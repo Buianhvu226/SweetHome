@@ -111,7 +111,7 @@ const LoginForm = () => {
               className="w-full p-3 mb-4 border border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <a
-              href="#"
+              href="#!"
               className="text-sm text-gray-500 hover:text-blue-600 block text-right mb-4"
             >
               Quên mật khẩu

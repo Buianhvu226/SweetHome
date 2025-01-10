@@ -8,6 +8,7 @@ import {
   FaArrowAltCircleRight,
   FaMapMarkerAlt,
   FaCommentDollar,
+  FaCompass,
 } from "react-icons/fa";
 
 const PredictLandPrice = () => {
@@ -45,6 +46,16 @@ const PredictLandPrice = () => {
       setError("Vui lòng điền đầy đủ các trường bắt buộc.");
       return false;
     }
+
+    // Kiểm tra sai số 10%
+    const calcArea = width * length;
+    const minArea = area * 0.9;
+    const maxArea = area * 1.1;
+    if (calcArea < minArea || calcArea > maxArea) {
+      setError("Diện tích không khớp với chiều dài * chiều rộng (±10%).");
+      return false;
+    }
+
     setError(null);
     return true;
   };
@@ -98,6 +109,7 @@ const PredictLandPrice = () => {
               name="area"
               value={formData.area}
               onChange={handleChange}
+              min="0"
               className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 rounded-none outline-none"
               placeholder="Nhập diện tích đất"
               required
@@ -123,6 +135,7 @@ const PredictLandPrice = () => {
                 name="width"
                 value={formData.width}
                 onChange={handleChange}
+                min="0"
                 className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 rounded-none outline-none"
                 placeholder="Nhập chiều rộng"
                 required
@@ -146,6 +159,7 @@ const PredictLandPrice = () => {
                 name="length"
                 value={formData.length}
                 onChange={handleChange}
+                min="0"
                 className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 rounded-none outline-none"
                 placeholder="Nhập chiều dài"
                 required
@@ -195,22 +209,30 @@ const PredictLandPrice = () => {
             className="block text-gray-700 font-medium mb-2"
             htmlFor="orientation"
           >
-            Hướng:
+            Hướng đất:
           </label>
           <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
             <div className="px-3">
-              <FaMapMarkerAlt className="text-gray-400" />
+              <FaCompass className="text-gray-400" />
             </div>
-            <input
-              type="text"
+            <select
               id="orientation"
               name="orientation"
               value={formData.orientation}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 rounded-none outline-none"
-              placeholder="Nhập hướng"
+              className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 rounded-lg outline-none"
               required
-            />
+            >
+              <option value="">Chọn hướng đất</option>
+              <option value="Đông">Đông</option>
+              <option value="Tây">Tây</option>
+              <option value="Nam">Nam</option>
+              <option value="Bắc">Bắc</option>
+              <option value="Đông Bắc">Đông Bắc</option>
+              <option value="Đông Nam">Đông Nam</option>
+              <option value="Tây Bắc">Tây Bắc</option>
+              <option value="Tây Nam">Tây Nam</option>
+            </select>
           </div>
         </div>
         {/* "Vĩnh Trung", "Thạc Gián", "Thuận Phước", "Thạch Thang", "Hải Châu I", "Hải Châu II", "Phước Ninh", "Bình Hiên" */}

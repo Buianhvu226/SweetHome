@@ -56,6 +56,7 @@ const PredictHousePrice = () => {
       street,
       ward,
     } = formData;
+
     if (
       !area ||
       !floors ||
@@ -73,6 +74,16 @@ const PredictHousePrice = () => {
       setError("Vui lòng điền đầy đủ các trường bắt buộc.");
       return false;
     }
+
+    // Kiểm tra sai số 10% giữa area và (width * length)
+    const calcArea = width * length;
+    const minArea = area * 0.9;
+    const maxArea = area * 1.1;
+    if (calcArea < minArea || calcArea > maxArea) {
+      setError("Diện tích không khớp với chiều dài * chiều rộng (±10%).");
+      return false;
+    }
+
     setError(null);
     return true;
   };
@@ -128,6 +139,7 @@ const PredictHousePrice = () => {
                   name="area"
                   value={formData.area}
                   onChange={handleChange}
+                  min="0"
                   className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 rounded-none outline-none"
                   placeholder="Nhập diện tích đất"
                   required
@@ -153,6 +165,7 @@ const PredictHousePrice = () => {
                   name="floors"
                   value={formData.floors}
                   onChange={handleChange}
+                  min="0"
                   className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 rounded-none outline-none"
                   placeholder="Nhập số tầng"
                   required
@@ -178,6 +191,7 @@ const PredictHousePrice = () => {
                   name="rooms"
                   value={formData.rooms}
                   onChange={handleChange}
+                  min="0"
                   className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 rounded-none outline-none"
                   placeholder="Nhập số phòng ngủ"
                   required
@@ -203,6 +217,7 @@ const PredictHousePrice = () => {
                   name="toilets"
                   value={formData.toilets}
                   onChange={handleChange}
+                  min="0"
                   className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 rounded-none outline-none"
                   placeholder="Nhập số toilet"
                   required
@@ -243,6 +258,7 @@ const PredictHousePrice = () => {
                   name="living_size"
                   value={formData.living_size}
                   onChange={handleChange}
+                  min="0"
                   className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 rounded-none outline-none"
                   placeholder="Nhập diện tích sử dụng"
                   required
@@ -268,6 +284,7 @@ const PredictHousePrice = () => {
                   name="width"
                   value={formData.width}
                   onChange={handleChange}
+                  min="0"
                   className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 rounded-none outline-none"
                   placeholder="Nhập chiều rộng"
                   required
@@ -293,6 +310,7 @@ const PredictHousePrice = () => {
                   name="length"
                   value={formData.length}
                   onChange={handleChange}
+                  min="0"
                   className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-400 rounded-none outline-none"
                   placeholder="Nhập chiều dài"
                   required

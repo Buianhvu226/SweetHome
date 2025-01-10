@@ -49,6 +49,7 @@ const NegotiationList = ({ type }) => {
   const [order, setOrder] = useState("desc");
   const [amount, setAmount] = useState("5");
 
+  const [openMenuNegotiationId, setOpenMenuNegotiationId] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const [reportType, setReportType] = useState("");
@@ -56,8 +57,10 @@ const NegotiationList = ({ type }) => {
 
   const today = new Date().toISOString().split("T")[0];
 
-  const toggleMenu = () => {
-    setIsOpen((prev) => !prev);
+  const toggleMenu = (negotiationId) => {
+    setOpenMenuNegotiationId((prev) =>
+      prev === negotiationId ? null : negotiationId
+    );
   };
 
   const closeReportPopup = () => {
@@ -563,7 +566,7 @@ const NegotiationList = ({ type }) => {
                     <div className="relative flex items-center ml-2">
                       {/* Icon dấu ba chấm dọc */}
                       <button
-                        onClick={toggleMenu}
+                        onClick={() => toggleMenu(negotiation.negotiation_id)}
                         className="focus:outline-none p-3"
                       >
                         <FontAwesomeIcon
@@ -573,54 +576,55 @@ const NegotiationList = ({ type }) => {
                       </button>
 
                       {/* Menu hiện ra khi nhấn vào dấu ba chấm */}
-                      {isOpen && role !== "admin" && (
-                        <div
-                          ref={menuRef}
-                          className="absolute right-5 top-8 mt-2 w-[15rem] text-sm font-semibold p-2 bg-white border-solid border-[1px] border-gray-300 rounded-lg shadow-lg flex flex-col space-y-2 z-50"
-                        >
-                          <button
-                            className="flex items-center space-x-2 hover:bg-gray-100 p-2 rounded-md"
-                            onClick={() => {
-                              handlePersonalProfileClick(
-                                negotiation.user.user_id
-                              );
-                            }}
+                      {openMenuNegotiationId === negotiation.negotiation_id &&
+                        role !== "admin" && (
+                          <div
+                            ref={menuRef}
+                            className="absolute right-5 top-8 mt-2 w-[15rem] text-sm font-semibold p-2 bg-white border-solid border-[1px] border-gray-300 rounded-lg shadow-lg flex flex-col space-y-2 z-50"
                           >
-                            <FontAwesomeIcon
-                              icon={faUser}
-                              className="text-blue-500"
-                            />
-                            <span className="text-gray-700">
-                              Thông tin cá nhân
-                            </span>
-                          </button>
-
-                          <div className="relative">
                             <button
                               className="flex items-center space-x-2 hover:bg-gray-100 p-2 rounded-md"
-                              onClick={() => openReportPopup("user")}
+                              onClick={() => {
+                                handlePersonalProfileClick(
+                                  negotiation.user.user_id
+                                );
+                              }}
                             >
                               <FontAwesomeIcon
-                                icon={faFlag}
-                                className="text-red-500"
+                                icon={faUser}
+                                className="text-blue-500"
                               />
                               <span className="text-gray-700">
-                                Báo cáo người dùng
+                                Thông tin cá nhân
                               </span>
                             </button>
 
-                            <ReportPopup
-                              isOpen={isReportPopupOpen}
-                              onClose={closeReportPopup}
-                              reportType={reportType}
-                              reportedUserId={negotiation.user.user_id}
-                              postId={null}
-                              commentId={null}
-                              reporteeId={id}
-                            />
+                            <div className="relative">
+                              <button
+                                className="flex items-center space-x-2 hover:bg-gray-100 p-2 rounded-md"
+                                onClick={() => openReportPopup("user")}
+                              >
+                                <FontAwesomeIcon
+                                  icon={faFlag}
+                                  className="text-red-500"
+                                />
+                                <span className="text-gray-700">
+                                  Báo cáo người dùng
+                                </span>
+                              </button>
+
+                              <ReportPopup
+                                isOpen={isReportPopupOpen}
+                                onClose={closeReportPopup}
+                                reportType={reportType}
+                                reportedUserId={negotiation.user.user_id}
+                                postId={null}
+                                commentId={null}
+                                reporteeId={id}
+                              />
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
                     </div>
                   )}
                 </h3>
