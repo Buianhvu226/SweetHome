@@ -84,7 +84,9 @@ const Navbar = ({ isCollapsed, toggleNavbar, handleMenuClick, activeMenu }) => {
         <li
           onClick={() => handleMenuClickWithStorage("dashboard")}
           className={`flex items-center gap-12 navbar-item p-3 rounded-xl cursor-pointer ${
-            activeMenu === "dashboard" ? "bg-[#9EBBD8]" : "hover:bg-[#9EBBD8]"
+            activeMenu === "dashboard"
+              ? "bg-[#9EBBD8] font-bold text-gray-900"
+              : "hover:bg-[#9EBBD8]"
           }`}
         >
           <FontAwesomeIcon icon={faChartBar} className="w-[23px] h-[23px]" />
@@ -102,7 +104,7 @@ const Navbar = ({ isCollapsed, toggleNavbar, handleMenuClick, activeMenu }) => {
             onClick={toggleAccountMenu}
             className={`flex justify-between items-center cursor-pointer w-full p-3 rounded-xl transition-all duration-300 ease-in-out ${
               activeMenu === "accountList"
-                ? "bg-[#9EBBD8]"
+                ? "bg-[#9EBBD8] font-bold text-gray-900"
                 : "hover:bg-[#9EBBD8]"
             }`}
           >
@@ -138,6 +140,10 @@ const Navbar = ({ isCollapsed, toggleNavbar, handleMenuClick, activeMenu }) => {
                   href="#!"
                   className={`block p-3 hover:bg-[#9EBBD8] rounded-xl ${
                     isCollapsed ? "hidden" : "block"
+                  } ${
+                    activeMenu === "accountList"
+                      ? "bg-[#9EBBD8] font-bold text-gray-900"
+                      : ""
                   }`}
                 >
                   Danh sách tài khoản
@@ -153,7 +159,7 @@ const Navbar = ({ isCollapsed, toggleNavbar, handleMenuClick, activeMenu }) => {
             onClick={togglePostMenu}
             className={`flex justify-between cursor-pointer items-center w-full p-3 rounded-xl ${
               activeMenu === "managePosts" || activeMenu === "browsePosts"
-                ? "bg-[#9EBBD8]"
+                ? "bg-[#9EBBD8] font-bold text-gray-900"
                 : "hover:bg-[#9EBBD8]"
             }`}
           >
@@ -188,6 +194,10 @@ const Navbar = ({ isCollapsed, toggleNavbar, handleMenuClick, activeMenu }) => {
                   href="#!"
                   className={`block p-3 hover:bg-[#9EBBD8] rounded-xl ${
                     isCollapsed ? "hidden" : "block"
+                  } ${
+                    activeMenu === "managePosts"
+                      ? "bg-[#9EBBD8] font-bold text-gray-900"
+                      : ""
                   }`}
                 >
                   Danh sách bài đăng
@@ -198,6 +208,10 @@ const Navbar = ({ isCollapsed, toggleNavbar, handleMenuClick, activeMenu }) => {
                   href="#!"
                   className={`block p-3 hover:bg-[#9EBBD8] rounded-xl ${
                     isCollapsed ? "hidden" : "block"
+                  } ${
+                    activeMenu === "browsePosts"
+                      ? "bg-[#9EBBD8] font-bold text-gray-900"
+                      : ""
                   }`}
                 >
                   Duyệt bài đăng
@@ -213,7 +227,7 @@ const Navbar = ({ isCollapsed, toggleNavbar, handleMenuClick, activeMenu }) => {
             onClick={toggleReportMenu}
             className={`flex justify-between items-center cursor-pointer w-full p-3 rounded-xl transition-all duration-300 ease-in-out ${
               activeMenu === "manageReports"
-                ? "bg-[#9EBBD8]"
+                ? "bg-[#9EBBD8] font-bold text-gray-900"
                 : "hover:bg-[#9EBBD8]"
             }`}
           >
@@ -249,6 +263,10 @@ const Navbar = ({ isCollapsed, toggleNavbar, handleMenuClick, activeMenu }) => {
                   href="#!"
                   className={`block p-3 hover:bg-[#9EBBD8] rounded-xl ${
                     isCollapsed ? "hidden" : "block"
+                  } ${
+                    activeMenu === "manageReports"
+                      ? "bg-[#9EBBD8] font-bold text-gray-900"
+                      : ""
                   }`}
                 >
                   Danh sách báo cáo

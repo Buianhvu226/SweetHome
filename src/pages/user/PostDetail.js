@@ -224,10 +224,8 @@ const DetailPost = () => {
             }
           );
           if (response.status === 200) {
-            const savedPosts = response.data.map((post) => postId);
-            if (savedPosts.includes(postId)) {
-              setIsSaved(true);
-            }
+            const savedPosts = response.data.map((post) => post.post_id);
+            setIsSaved(savedPosts.includes(postId));
           }
         } catch (error) {
           console.error("Error checking saved posts:", error);
@@ -441,7 +439,13 @@ const DetailPost = () => {
                   {/* Save */}
                   <div className="flex items-end text-gray-500 space-x-1">
                     <button
-                      onClick={handleSaveClick}
+                      onClick={() => {
+                        if (post.user.user_id === id) {
+                          alert("Không thể lưu bài đăng của chính mình!");
+                          return;
+                        }
+                        handleSaveClick();
+                      }}
                       className="focus:outline-none"
                     >
                       <FontAwesomeIcon
@@ -453,7 +457,6 @@ const DetailPost = () => {
                     </button>
                     <span>{savesCount}</span>
                   </div>
-                  
                 </div>
               </div>
               <div className="flex items-center justify-center mb-10 mt-5 border-b-[2px] border-gray-300 border-solid pb-5">
