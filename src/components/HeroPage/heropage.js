@@ -95,10 +95,10 @@ const HeroSection = ({
 
           <div className="main-content h-[400px] flex justify-center items-center flex-col absolute top-0 left-0 right-0 z-10">
             <h1 className="text-4xl font-bold text-transparent text-white drop-shadow-2xl">
-              <span>Chào mừng đến với</span>
+              <span>SweetHome</span>
             </h1>
             <p className="text-2xl font-semibold mt-4 text-transparent text-white drop-shadow-2xl">
-              Hệ thống môi giới nhà đất, bất động sản
+              Hệ thống môi giới bất động sản
             </p>
           </div>
         </div>
